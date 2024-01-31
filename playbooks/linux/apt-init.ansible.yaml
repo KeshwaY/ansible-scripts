@@ -1,0 +1,31 @@
+---
+# =================
+# --- HOST_VARS ---
+# =================
+- name: Fix host_vars
+  hosts: '{{ groups.all }}'
+  gather_facts: true
+  tasks:
+    - name: Add sudo to host_vars
+      ansible.builtin.include_role:
+        name: vault
+        tasks_from: sudo-password-add.ansible.yaml
+# ================
+# --- PLAYBOOK ---
+# ================
+- name: Base packages
+  hosts: '{{ groups.all }}'
+  become: true
+  tasks:
+    - name: Update apt
+      ansible.builtin.include_role:
+        name: linux
+        tasks_from: apt-update.ansible.yaml
+    - name: Install packages
+      ansible.builtin.include_role:
+        name: linux
+        tasks_from: apt-install.ansible.yaml
+    - name: Install packages
+      ansible.builtin.include_role:
+        name: linux
+        tasks_from: kernel-modules-enable.ansible.yaml

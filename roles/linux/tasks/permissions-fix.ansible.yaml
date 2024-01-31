@@ -1,0 +1,16 @@
+---
+- name: Fix ownership
+  ansible.builtin.command: 'find {{ item }} -exec chown {{ current_user }}:{{ current_user }} {} \;'
+  register: fix_ownership_dir_output
+  changed_when: fix_ownership_dir_output.rc != 0
+  with_items: '{{ dirs_to_fix }}'
+- name: Fix directories permissions
+  ansible.builtin.command: 'find {{ item }} -type d -exec chmod 755 {} \;'
+  register: fix_chmod_dir_output
+  changed_when: fix_chmod_dir_output.rc != 0
+  with_items: '{{ dirs_to_fix }}'
+- name: Fix files permissions
+  ansible.builtin.command: 'find {{ item }} -type f -exec chmod 600 {} \;'
+  register: fix_chmod_files_output
+  changed_when: fix_chmod_files_output.rc != 0
+  with_items: '{{ dirs_to_fix }}'

@@ -1,0 +1,9 @@
+---
+- name: Install tailscale  # noqa command-instead-of-module risky-shell-pipe
+  ansible.builtin.shell: 'curl -fsSL https://tailscale.com/install.sh | sh -s'
+  register: ts_install_output
+  changed_when: ts_install_output.rc != 0
+- name: Login with auth key
+  ansible.builtin.command: 'tailscale up --hostname {{ inventory_hostname }} --authkey {{ tskey }} --accept-routes'
+  register: ts_login_output
+  changed_when: ts_login_output.rc != 0

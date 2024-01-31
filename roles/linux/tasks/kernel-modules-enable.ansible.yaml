@@ -1,0 +1,5 @@
+---
+- name: Enable kernel modules
+  ansible.builtin.command: '{{ kernel_modules_enable_command }}'
+  register: modprobe_output
+  changed_when: modprobe_output.rc != 0

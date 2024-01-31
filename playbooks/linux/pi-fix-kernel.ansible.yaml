@@ -1,0 +1,23 @@
+---
+# =================
+# --- HOST_VARS ---
+# =================
+- name: Fix host_vars
+  hosts: '{{ groups.pi_new }}'
+  gather_facts: false
+  tasks:
+    - name: Add sudo to host_vars
+      ansible.builtin.include_role:
+        name: vault
+        tasks_from: sudo-password-add.ansible.yaml
+# ================
+# --- PLAYBOOK ---
+# ================
+- name: Update system
+  hosts: '{{ groups.pi_new }}'
+  become: true
+  tasks:
+    - name: Update kernel
+      ansible.builtin.include_role:
+        name: pi
+        tasks_from: kernel-fix.ansible.yaml 

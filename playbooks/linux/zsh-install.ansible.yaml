@@ -1,0 +1,38 @@
+---
+# =================
+# --- HOST_VARS ---
+# =================
+- name: Fix host_vars
+  hosts: '{{ groups.new }}'
+  gather_facts: false
+  tasks:
+    - name: Add sudo to host_vars
+      ansible.builtin.include_role:
+        name: vault
+        tasks_from: sudo-password-add.ansible.yaml
+# ================
+# --- PLAYBOOK ---
+# ================
+- name: Install zsh
+  hosts: '{{ groups.new }}'
+  become: true
+  tasks:
+    - name: Download all github sources
+      ansible.builtin.include_role:
+        name: linux
+        tasks_from: github-download-sources.ansible.yaml
+    - name: Fix zsh config
+      ansible.builtin.include_role:
+        name: linux
+        tasks_from: zsh-config-fix.ansible.yaml
+    - name: Copy zsh to root
+      ansible.builtin.include_role:
+        name: linux
+        tasks_from: root-fix-zsh.ansible.yaml
+    - name: Update shells
+      with_items:
+        - '{{ user }}'
+        - root
+      ansible.builtin.include_role:
+        name: linux
+        tasks_from: zsh-shell-update.ansible.yaml

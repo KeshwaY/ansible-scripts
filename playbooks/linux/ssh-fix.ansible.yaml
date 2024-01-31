@@ -1,0 +1,23 @@
+---
+# =================
+# --- HOST_VARS ---
+# =================
+- name: Fix host_vars
+  hosts: '{{ groups.new }}'
+  gather_facts: false
+  tasks:
+    - name: Add sudo to host_vars
+      ansible.builtin.include_role:
+        name: vault
+        tasks_from: sudo-password-add.ansible.yaml
+# ================
+# --- PLAYBOOK ---
+# ================
+- name: Fix sshd config
+  hosts: '{{ groups.new }}'
+  become: true
+  tasks:
+    - name: Fix sshd
+      ansible.builtin.include_role:
+        name: linux
+        tasks_from: ssh-config-fix.ansible.yaml 

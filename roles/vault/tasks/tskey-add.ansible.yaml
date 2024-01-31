@@ -1,0 +1,9 @@
+---
+- name: Get tskey
+  ansible.builtin.command: 'op read op://Development/tokens/tailscale'
+  delegate_to: localhost
+  register: tskey
+  changed_when: tskey.rc != 0
+- name: Add tskey to host_vars
+  ansible.builtin.set_fact:
+    tskey: '{{ tskey.stdout }}'

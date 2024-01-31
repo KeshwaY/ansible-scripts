@@ -1,0 +1,9 @@
+---
+- name: Get ssh key
+  ansible.builtin.command: "op read 'op://Development/{{ inventory_hostname }}/public key'"
+  delegate_to: localhost
+  register: ssh_key
+  changed_when: ssh_key.rc != 0
+- name: Add password to host_vars
+  ansible.builtin.set_fact:
+    ssh_key: '{{ ssh_key.stdout }}'

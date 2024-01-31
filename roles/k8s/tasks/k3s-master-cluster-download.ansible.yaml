@@ -1,0 +1,6 @@
+---
+- name: Download cluster data
+  ansible.builtin.fetch:
+    src: '/etc/rancher/k3s/k3s.yaml'
+    flat: true
+    dest: '~/.kube/config.yaml'

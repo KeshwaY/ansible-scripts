@@ -1,0 +1,8 @@
+# files
+inventory
+files
+
+# misc
+.vscode
+.idea
+.ansible-lint

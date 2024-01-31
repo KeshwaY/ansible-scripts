@@ -1,0 +1,20 @@
+---
+- name: 'Remove from configuration: {{ item.name }}'
+  ansible.builtin.lineinfile:
+    path: '/etc/ssh/sshd_config'
+    state: absent
+    regexp: '^[\s#]*{{ item.name }}\s'
+    backrefs: true
+  with_items: '{{ ssh_config_overwrites }}'
+- name: 'Add to configuration: {{ item.name }}'
+  ansible.builtin.lineinfile:
+    path: '/etc/ssh/sshd_config'
+    state: present
+    regexp: '^[\s#]*{{ item.name }}\s'
+    line: '{{ item.name }} {{ item.value }}'
+    backrefs: true
+  with_items: '{{ ssh_config_overwrites }}'
+- name: Restart ssh
+  ansible.builtin.service:
+    name: ssh
+    state: restarted

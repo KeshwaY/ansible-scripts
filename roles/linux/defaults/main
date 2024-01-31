@@ -1,0 +1,40 @@
+---
+# User
+user: dciepiela
+user_groups:
+  - adm
+  - sudo
+  - audio
+  - video
+  - users
+  - input
+# Apt
+packages_to_install:
+  - zsh
+  - git
+  - tree
+  - exa
+  - neovim
+k3s_packages_to_install:
+  - policycoreutils
+  - nfs-common
+  - open-iscsi
+# Kernel
+kernel_modules_enable_command: |
+  modprobe iscsi_tcp
+# Ssh
+ssh_config_overwrites:
+  - { name: PubkeyAuthentication, value: 'yes'}
+  - { name: PasswordAuthentication, value: 'no'}
+  - { name: KbdInteractiveAuthentication, value: 'no'}
+  - { name: UsePAM, value: 'no'}
+  - { name: ChallengeResponseAuthentication, value: 'no'}
+  - { name: PermitRootLogin, value: 'no'}
+# Github
+github_download_sources:
+  - { url: 'https://github.com/ohmyzsh/ohmyzsh.git', path: '/home/{{ user }}/.oh-my-zsh'}
+  - { url: 'https://github.com/zsh-users/zsh-autosuggestions', path: '/home/{{ user }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions'}
+  - { url: 'https://github.com/zsh-users/zsh-completions', path: '/home/{{ user }}/.oh-my-zsh/custom/plugins/zsh-completions'}
+  - { url: 'https://github.com/zsh-users/zsh-syntax-highlighting.git', path: '/home/{{ user }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting'}
+  - { url: 'https://github.com/agkozak/zsh-z.git', path: '/home/{{ user }}/.oh-my-zsh/custom/plugins/zsh-z'}
+  - { url: 'https://github.com/romkatv/powerlevel10k.git', path: '/home/{{ user }}/.oh-my-zsh/custom/themes/powerlevel10k'}

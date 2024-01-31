@@ -1,0 +1,35 @@
+---
+# =================
+# --- HOST_VARS ---
+# =================
+- name: Fix host_vars
+  hosts: '{{ groups.all }}'
+  gather_facts: false
+  tasks:
+    - name: Add ssh_pass to host_vars
+      ansible.builtin.include_role:
+        name: vault
+        tasks_from: ssh-password-add.ansible.yaml
+    - name: Add sudo to host_vars
+      ansible.builtin.include_role:
+        name: vault
+        tasks_from: sudo-password-add.ansible.yaml
+    - name: Add tskey to host_vars
+      ansible.builtin.include_role:
+        name: vault
+        tasks_from: tskey-add.ansible.yaml
+# ================
+# --- PLAYBOOK ---
+# ================
+- name: Install tailscale
+  hosts: '{{ groups.all }}'
+  become: true
+  tasks:
+    - name: Update system
+      ansible.builtin.include_role:
+        name: linux
+        tasks_from: apt-update.ansible.yaml
+#    - name: Install tailscale
+#      ansible.builtin.include_role:
+#        name: linux
+#        tasks_from: tailscale-install.ansible.yaml

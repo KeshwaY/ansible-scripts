@@ -1,0 +1,45 @@
+---
+- name: Copy zshrc template
+  ansible.builtin.copy:
+    src: '/home/{{ user }}/.oh-my-zsh/templates/zshrc.zsh-template'
+    dest: '/home/{{ user }}/.zshrc'
+    remote_src: true
+    mode: 'u=rwx,g=,o='
+- name: Set p10k theme
+  ansible.builtin.lineinfile:
+    path: '/home/{{ user }}/.zshrc'
+    regexp: '^ZSH_THEME\S*'
+    line: 'ZSH_THEME="powerlevel10k/powerlevel10k"'
+    backrefs: true
+- name: Configure plugins
+  ansible.builtin.lineinfile:
+    path: '/home/{{ user }}/.zshrc'
+    regexp: '^plugins\S*'
+    line: >-
+      plugins=(
+        git zsh-z sudo zsh-autosuggestions zsh-syntax-highlighting ufw ubuntu screen
+      )
+    backrefs: true
+- name: Add custom config
+  vars:
+    zshrc: '{{ lookup("file", ".zshrc") }}'
+  ansible.builtin.lineinfile:
+    path: '/home/{{ user }}/.zshrc'
+    insertafter: EOF
+    line: '{{ zshrc }}'
+- name: Copy p10k config
+  ansible.builtin.copy:
+    src: '.p10k.zsh'
+    dest: '/home/{{ user }}/.p10k.zsh'
+    mode: 'u=rwx,g=,o='
+- name: Update facts
+  ansible.builtin.set_fact:
+    current_user: '{{ user }}'
+    dirs_to_fix:
+      - '/home/{{ user }}/.oh-my-zsh'
+      - '/home/{{ user }}/.zshrc'
+      - '/home/{{ user }}/.p10k.zsh'
+- name: Fix dirs
+  ansible.builtin.include_role:
+    name: linux
+    tasks_from: permissions-fix.ansible.yaml

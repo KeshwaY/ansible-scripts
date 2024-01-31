@@ -1,0 +1,43 @@
+---
+# =================
+# --- HOST_VARS ---
+# =================
+- name: Fix host_vars for master
+  hosts: '{{ groups.masters[0] | default([]) }}'
+  gather_facts: false
+  tasks:
+    - name: Add sudo to host_vars
+      ansible.builtin.include_role:
+        name: vault
+        tasks_from: sudo-password-add.ansible.yaml
+- name: Fix host_vars for nodes
+  hosts: '{{ groups.nodes | default([]) }}'
+  gather_facts: false
+  tasks:
+    - name: Add sudo to host_vars
+      ansible.builtin.include_role:
+        name: vault
+        tasks_from: sudo-password-add.ansible.yaml
+    - name: Add tskey to host_vars
+      ansible.builtin.include_role:
+        name: vault
+        tasks_from: tskey-add.ansible.yaml
+# ================
+# --- PLAYBOOK ---
+# ================
+- name: Get cluster data
+  hosts: '{{ groups.masters[0] | default([]) }}'
+  become: true
+  tasks:
+    - name: Get cluster data
+      ansible.builtin.include_role:
+        name: k8s
+        tasks_from: k3s-master-cluster-data.ansible.yaml
+- name: Install nodes
+  hosts: "{{ groups.nodes | default([]) }}"
+  become: true
+  tasks:
+    - name: Install k3s
+      ansible.builtin.include_role:
+        name: k8s
+        tasks_from: k3s-node-install.ansible.yaml

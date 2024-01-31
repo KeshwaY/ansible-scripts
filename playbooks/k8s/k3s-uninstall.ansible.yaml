@@ -1,0 +1,31 @@
+---
+# =================
+# --- HOST_VARS ---
+# =================
+- name: Fix host_vars
+  hosts: '{{ groups.all }}'
+  gather_facts: false
+  tasks:
+    - name: Add sudo to host_vars
+      ansible.builtin.include_role:
+        name: vault
+        tasks_from: sudo-password-add.ansible.yaml
+# ================
+# --- PLAYBOOK ---
+# ================
+- name: Uninstall nodes
+  hosts: '{{ groups.nodes }}'
+  become: true
+  tasks:
+    - name: Uninstall nodes
+      ansible.builtin.include_role:
+        name: k8s
+        tasks_from: k3s-node-uninstall.ansible.yaml
+- name: Uninstall masters
+  hosts: '{{ groups.masters }}'
+  become: true
+  tasks:
+    - name: Uninstall masters
+      ansible.builtin.include_role:
+        name: k8s
+        tasks_from: k3s-master-uninstall.ansible.yaml

@@ -1,0 +1,23 @@
+---
+# =================
+# --- HOST_VARS ---
+# =================
+- name: Fix host_vars
+  hosts: '{{ groups.all }}'
+  gather_facts: false
+  tasks:
+    - name: Add sudo to host_vars
+      ansible.builtin.include_role:
+        name: vault
+        tasks_from: sudo-password-add.ansible.yaml
+# ================
+# --- PLAYBOOK ---
+# ================
+- name: Uninstall longhorn
+  hosts: '{{ groups.all }}'
+  become: true
+  tasks:
+    - name: Uninstall longhorn
+      ansible.builtin.include_role:
+        name: k8s
+        tasks_from: longhorn-uninstall.ansible.yaml

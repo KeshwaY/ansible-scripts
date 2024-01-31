@@ -1,0 +1,7 @@
+---
+- name: Add user
+  ansible.builtin.user:
+    name: '{{ user }}'
+    create_home: true
+    state: present
+    groups: '{{ user_groups }}'
