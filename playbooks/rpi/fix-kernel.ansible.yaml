@@ -3,7 +3,7 @@
 # --- HOST_VARS ---
 # =================
 - name: Fix host_vars
-  hosts: '{{ groups.pi_new }}'
+  hosts: '{{ groups.rpi }}'
   gather_facts: false
   tasks:
     - name: Add sudo to host_vars
@@ -14,10 +14,10 @@
 # --- PLAYBOOK ---
 # ================
 - name: Update system
-  hosts: '{{ groups.pi_new }}'
+  hosts: '{{ groups.rpi }}'
   become: true
   tasks:
     - name: Update kernel
       ansible.builtin.include_role:
-        name: pi
+        name: rpi
         tasks_from: kernel-fix.ansible.yaml 
