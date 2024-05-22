@@ -1,7 +1,7 @@
 ---
 - name: Set group labels
   kubernetes.core.k8s:
-    kubeconfig: '~/.kube/config.yaml'
+    kubeconfig: ~/.kube/config.yaml
     state: present
     definition:
       apiVersion: v1
@@ -14,7 +14,7 @@
     - '{{ groups.all }}'
 - name: Set node labels
   kubernetes.core.k8s:
-    kubeconfig: '~/.kube/config.yaml'
+    kubeconfig: ~/.kube/config.yaml
     state: present
     definition:
       apiVersion: v1

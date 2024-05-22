@@ -3,9 +3,9 @@
 # --- PLAYBOOK ---
 # ================
 - name: Label nodes
-  hosts: '{{ groups.masters[0] | default ([]) }}'
+  hosts: '{{ groups.nodes | default ([]) }}'
   tasks:
     - name: Label nodes
       ansible.builtin.include_role:
         name: k8s
-        tasks_from: k3s-all-label.ansible.yaml
+        tasks_from: k3s-nodes-label.ansible.yaml

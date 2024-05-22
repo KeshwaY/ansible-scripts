@@ -1,31 +1,31 @@
 ---
 # =================
-# --- HOST_VARS ---
+# --- HOSTVARS ---
 # =================
-- name: Fix host_vars for nodes
-  hosts: '{{ groups.all | default([]) }}'
+- name: Fix hostvars
+  hosts: '{{ groups.nodes | default([]) }}'
   gather_facts: false
   tasks:
-    - name: Add sudo to host_vars
+    - name: Add sudo to hostvars
       ansible.builtin.include_role:
         name: vault
         tasks_from: sudo-password-add.ansible.yaml
 # ================
 # --- PLAYBOOK ---
 # ================
-#- name: Install private registry
-#  hosts: "{{ groups.all | default([]) }}"
-#  become: true
-#  tasks:
-#    - name: Install registry
-#      ansible.builtin.include_role:
-#        name: k8s
-#        tasks_from: k3s-all-install-private-registry.ansible.yaml
-- name: Restart k3s nodes
+- name: Install private registry
   hosts: "{{ groups.nodes | default([]) }}"
   become: true
   tasks:
-    - name: Restart nodes
+    - name: Install registry
       ansible.builtin.include_role:
         name: k8s
-        tasks_from: k3s-node-restart.ansible.yaml
+        tasks_from: k3s-nodes-install-private-registry.ansible.yaml
+- name: Restart k3s
+  hosts: "{{ groups.nodes | default([]) }}"
+  become: true
+  tasks:
+    - name: Restart k3s on nodes
+      ansible.builtin.include_role:
+        name: k8s
+        tasks_from: k3s-nodes-restart.ansible.yaml

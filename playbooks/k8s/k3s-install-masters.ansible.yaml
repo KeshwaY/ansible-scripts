@@ -1,16 +1,16 @@
 ---
 # =================
-# --- HOST_VARS ---
+# --- HOSTVARS ---
 # =================
-- name: Fix host_vars
+- name: Fix hostvars
   hosts: '{{ groups.masters | default([]) }}'
   gather_facts: false
   tasks:
-    - name: Add sudo to host_vars
+    - name: Add sudo to hostvars
       ansible.builtin.include_role:
         name: vault
         tasks_from: sudo-password-add.ansible.yaml
-    - name: Add tskey to host_vars
+    - name: Add tskey to hostvars
       ansible.builtin.include_role:
         name: vault
         tasks_from: tskey-add.ansible.yaml
@@ -24,23 +24,19 @@
     - name: Install k3s
       ansible.builtin.include_role:
         name: k8s
-        tasks_from: k3s-master-install-first.ansible.yaml
-- name: Get cluster data
-  hosts: '{{ groups.masters[0] | default([]) }}'
-  become: true
-  tasks:
-    - name: Get cluster data
+        tasks_from: k3s-master-install-nodes-first.ansible.yaml
+    - name: Create cluster facts
       ansible.builtin.include_role:
         name: k8s
-        tasks_from: k3s-master-cluster-data.ansible.yaml
-- name: Install other masters
+        tasks_from: k3s-master-cluster-data-facts-create.ansible.yaml
+- name: Install others masters
   hosts: "{{ groups.masters[1:] | default([]) }}"
   become: true
   tasks:
     - name: Install k3s
       ansible.builtin.include_role:
         name: k8s
-        tasks_from: k3s-master-install-others.ansible.yaml
+        tasks_from: k3s-master-install-nodes-others.ansible.yaml
 - name: Fix cluster configs
   hosts: "{{ groups.masters | default([]) }}"
   become: true
@@ -48,12 +44,4 @@
     - name: Fix config
       ansible.builtin.include_role:
         name: k8s
-        tasks_from: k3s-master-cluster-config-fix.ansible.yaml
-- name: Download cluster config
-  hosts: '{{ groups.masters[0] | default([]) }}'
-  become: true
-  tasks:
-    - name: Download cluster config
-      ansible.builtin.include_role:
-        name: k8s
-        tasks_from: k3s-master-cluster-download.ansible.yaml
+        tasks_from: k3s-master-cluster-data-fix-location.ansible.yaml

@@ -1,8 +1,8 @@
 ---
 - name: Uninstall k3s
-  ansible.builtin.command: '/usr/local/bin/k3s-agent-uninstall.sh'
+  ansible.builtin.command: /usr/local/bin/k3s-agent-uninstall.sh
   register: k3s_uninstall
   changed_when: k3s_uninstall.rc != 0
-- name: 'Flush iptables'
+- name: Flush iptables
   ansible.builtin.iptables:
     flush: true

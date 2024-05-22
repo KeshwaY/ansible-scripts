@@ -1,5 +1,5 @@
 ---
 - name: Delete longhorn directory
   ansible.builtin.file:
-    path: '/var/lib/longhorn'
+    path: /var/lib/longhorn
     state: absent

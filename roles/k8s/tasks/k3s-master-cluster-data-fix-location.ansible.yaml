@@ -1,31 +1,31 @@
 ---
 - name: Create .kube in root directory
   ansible.builtin.file:
-    path: '/root/.kube'
+    path: /root/.kube
     owner: root
     group: root
-    mode: 'u=rw,g=,o='
+    mode: u=rw,g=,o=
     state: directory
 - name: Copy cluster config to root
   ansible.builtin.copy:
-    src: '/etc/rancher/k3s/k3s.yaml'
-    dest: '/root/.kube/config.yaml'
+    src: /etc/rancher/k3s/k3s.yaml
+    dest: /root/.kube/config.yaml
     owner: root
     group: root
-    mode: 'u=rwx,g=,o='
+    mode: u=rwx,g=,o=
     remote_src: true
 - name: 'Create .kube in directory for {{ user }}'
   ansible.builtin.file:
     path: '/home/{{ user }}/.kube'
     owner: '{{ user }}'
     group: '{{ user }}'
-    mode: 'u=rwx,g=,o='
+    mode: u=rwx,g=,o=
     state: directory
 - name: 'Copy cluster config to {{ user }}'
   ansible.builtin.copy:
-    src: '/etc/rancher/k3s/k3s.yaml'
+    src: /etc/rancher/k3s/k3s.yaml
     dest: '/home/{{ user }}/.kube/config.yaml'
     owner: '{{ user }}'
     group: '{{ user }}'
-    mode: 'u=rw,g=,o='
+    mode: u=rw,g=,o=
     remote_src: true

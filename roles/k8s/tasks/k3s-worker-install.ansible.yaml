@@ -1,14 +1,14 @@
 ---
-- name: Get node IPv4 # noqa command-instead-of-shell
-  ansible.builtin.shell: 'tailscale ip -4'
+- name: Get node's IPv4 # noqa command-instead-of-shell
+  ansible.builtin.shell: tailscale ip -4
   register: node_ip_v4
   changed_when: node_ip_v4.rc != 0
-- name: Get node IPv6 # noqa command-instead-of-shell
-  ansible.builtin.shell: 'tailscale ip -6'
+- name: Get node's IPv6 # noqa command-instead-of-shell
+  ansible.builtin.shell: tailscale ip -6
   register: node_ip_v6
   changed_when: node_ip_v6.rc != 0
 - name: Install k3s # noqa command-instead-of-module risky-shell-pipe
-  ansible.builtin.shell: >-
+  ansible.builtin.shell: >- 
     curl -sfL https://get.k3s.io | 
     K3S_NODE_NAME="{{ inventory_hostname }}" 
     INSTALL_K3S_VERSION="{{ k3s_version }}" 

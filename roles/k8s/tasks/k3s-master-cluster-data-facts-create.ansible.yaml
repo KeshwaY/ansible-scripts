@@ -1,0 +1,13 @@
+---
+- name: Cat cluster token
+  ansible.builtin.slurp:
+    src: /var/lib/rancher/k3s/server/token
+  register: cluster_token
+- name: Get node's IP # noqa command-instead-of-shell
+  ansible.builtin.shell: tailscale ip -4
+  register: node_ip
+  changed_when: node_ip.rc != 0
+- name: Set cluster facts
+  ansible.builtin.set_fact:
+    cluster_token: '{{ cluster_token.content }}'
+    node_ip: '{{ node_ip.stdout }}'

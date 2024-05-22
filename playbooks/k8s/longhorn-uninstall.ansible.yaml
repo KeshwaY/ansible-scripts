@@ -1,12 +1,12 @@
 ---
 # =================
-# --- HOST_VARS ---
+# --- HOSTVARS ---
 # =================
-- name: Fix host_vars
-  hosts: '{{ groups.all }}'
+- name: Fix hostvars
+  hosts: '{{ groups.nodes | default([]) }}'
   gather_facts: false
   tasks:
-    - name: Add sudo to host_vars
+    - name: Add sudo to hostvars
       ansible.builtin.include_role:
         name: vault
         tasks_from: sudo-password-add.ansible.yaml
@@ -14,7 +14,7 @@
 # --- PLAYBOOK ---
 # ================
 - name: Uninstall longhorn
-  hosts: '{{ groups.all }}'
+  hosts: '{{ groups.nodes | default([]) }}'
   become: true
   tasks:
     - name: Uninstall longhorn
