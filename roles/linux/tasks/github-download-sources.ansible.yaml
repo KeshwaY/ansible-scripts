@@ -1,5 +1,5 @@
 ---
-- name: 'Download github sources'
+- name: Download github sources
   with_items: '{{ github_download_sources }}'
   ansible.builtin.git:
     repo: '{{ item.url }}' # noqa: latest

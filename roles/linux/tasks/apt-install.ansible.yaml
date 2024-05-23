@@ -1,5 +1,5 @@
 ---
-- name: Install Packages
+- name: Install packages
   ansible.builtin.apt:
     update_cache: true
     name: '{{ packages_to_install + k3s_packages_to_install }}'

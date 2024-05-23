@@ -1,5 +1,5 @@
 ---
-- name: Add user
+- name: Create user
   ansible.builtin.user:
     name: '{{ user }}'
     create_home: true

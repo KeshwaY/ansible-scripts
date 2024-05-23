@@ -1,13 +1,13 @@
 ---
-- name: 'Create .ssh folder'
+- name: Create .ssh folder
   ansible.builtin.file:
     path: '/home/{{ user }}/.ssh'
     owner: '{{ user }}'
     group: '{{ user }}'
-    mode: 'u=rwx,g=,o='
+    mode: u=rwx,g=,o=
     state: directory
 - name: Fill authorized_keys with ssh_key
   ansible.builtin.copy:
     content: '{{ ssh_key }}'
     dest: '/home/{{ user }}/.ssh/authorized_keys'
-    mode: 'u=rw,g=,o='
+    mode: u=rw,g=,o=

@@ -1,6 +1,5 @@
 ---
 # User
-user: dciepiela
 user_groups:
   - adm
   - sudo
@@ -22,7 +21,7 @@ k3s_packages_to_install:
 # Kernel
 kernel_modules_enable_command: |
   modprobe iscsi_tcp
-# Ssh
+# SSH
 ssh_config_overwrites:
   - { name: PubkeyAuthentication, value: 'yes'}
   - { name: PasswordAuthentication, value: 'no'}

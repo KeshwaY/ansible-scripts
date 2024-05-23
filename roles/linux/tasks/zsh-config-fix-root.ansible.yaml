@@ -1,36 +1,36 @@
 ---
-- name: 'Copy over .zshrc'
+- name: Copy over .zshrc
   ansible.builtin.copy:
     src: '/home/{{ user }}/.zshrc'
-    dest: '/root/'
-    owner: 'root'
-    group: 'root'
-    mode: 'u=rw,g=,o='
+    dest: /root/
+    owner: root
+    group: root
+    mode: u=rw,g=,o=
     remote_src: true
-- name: 'Copy over oh-my-zsh'
+- name: Copy over oh-my-zsh
   ansible.builtin.copy:
     src: '/home/{{ user }}/.oh-my-zsh'
-    dest: '/root/'
-    owner: 'root'
-    group: 'root'
-    mode: 'u=rwx,g=,o='
+    dest: /root/
+    owner: root
+    group: root
+    mode: u=rwx,g=,o=
     directory_mode: true
     remote_src: true
 - name: Copy over p10k configuration
   ansible.builtin.copy:
     src: '/home/{{ user }}/.p10k.zsh'
-    dest: '/root/'
-    owner: 'root'
-    group: 'root'
-    mode: 'u=rwx,g=,o='
+    dest: /root/
+    owner: root
+    group: root
+    mode: u=rwx,g=,o=
     remote_src: true
 - name: Update facts
   ansible.builtin.set_fact:
-    current_user: 'root'
+    current_user: root
     dirs_to_fix:
-      - '/root/.oh-my-zsh'
-      - '/root/.zshrc'
-      - '/root/.p10k.zsh'
+      - /root/.oh-my-zsh
+      - /root/.zshrc
+      - /root/.p10k.zsh
 - name: Fix dirs
   ansible.builtin.include_role:
     name: linux

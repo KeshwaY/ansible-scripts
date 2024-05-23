@@ -1,5 +1,5 @@
 ---
-- name: Fix ownership
+- name: Find directories and files to fix permissions
   ansible.builtin.command: 'find {{ item }} -exec chown {{ current_user }}:{{ current_user }} {} \;'
   register: fix_ownership_dir_output
   changed_when: fix_ownership_dir_output.rc != 0

@@ -1,20 +1,20 @@
 ---
 # =================
-# --- HOST_VARS ---
+# --- HOSTVARS ---
 # =================
-- name: Fix host_vars
-  hosts: '{{ groups.all }}'
+- name: Fix hostvars
+  hosts: '{{ groups.nodes | default([]) }}'
   gather_facts: false
   tasks:
-    - name: Add ssh_pass to host_vars
+    - name: Add ssh_pass to hostvars
       ansible.builtin.include_role:
         name: vault
         tasks_from: ssh-password-add.ansible.yaml
-    - name: Add sudo to host_vars
+    - name: Add sudo to hostvars
       ansible.builtin.include_role:
         name: vault
         tasks_from: sudo-password-add.ansible.yaml
-    - name: Add tskey to host_vars
+    - name: Add tskey to hostvars
       ansible.builtin.include_role:
         name: vault
         tasks_from: tskey-add.ansible.yaml
@@ -22,10 +22,10 @@
 # --- PLAYBOOK ---
 # ================
 - name: Install tailscale
-  hosts: '{{ groups.all }}'
+  hosts: '{{ groups.nodes | default([]) }}'
   become: true
   tasks:
-    - name: Update system
+    - name: Refresh packages
       ansible.builtin.include_role:
         name: linux
         tasks_from: apt-update.ansible.yaml

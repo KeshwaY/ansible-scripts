@@ -24,22 +24,22 @@
   vars:
     zshrc: '{{ lookup("file", ".zshrc") }}'
   ansible.builtin.lineinfile:
-    path: '/home/{{ user }}/.zshrc'
+    path: '/home/{{ user }}/.zshrc' # noqa: jinja[invalid]
     insertafter: EOF
     line: '{{ zshrc }}'
 - name: Copy p10k config
   ansible.builtin.copy:
-    src: '.p10k.zsh'
+    src: .p10k.zsh
     dest: '/home/{{ user }}/.p10k.zsh'
-    mode: 'u=rwx,g=,o='
-- name: Update facts
+    mode: u=rwx,g=,o=
+- name: Set directories facts
   ansible.builtin.set_fact:
     current_user: '{{ user }}'
     dirs_to_fix:
       - '/home/{{ user }}/.oh-my-zsh'
       - '/home/{{ user }}/.zshrc'
       - '/home/{{ user }}/.p10k.zsh'
-- name: Fix dirs
+- name: Fix access permissions
   ansible.builtin.include_role:
     name: linux
     tasks_from: permissions-fix.ansible.yaml
