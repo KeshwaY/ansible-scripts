@@ -1,23 +1,23 @@
 ---
 # =================
-# --- HOST_VARS ---
+# --- HOSTVARS ---
 # =================
-- name: Fix host_vars
-  hosts: '{{ groups.rpi }}'
+- name: Fix hostvars
+  hosts: '{{ groups.rpi | default([]) }}'
   gather_facts: false
   tasks:
-    - name: Add sudo to host_vars
+    - name: Add sudo to hostvars
       ansible.builtin.include_role:
         name: vault
         tasks_from: sudo-password-add.ansible.yaml
 # ================
 # --- PLAYBOOK ---
 # ================
-- name: Update system
-  hosts: '{{ groups.rpi }}'
+- name: Fix kernel modules
+  hosts: '{{ groups.rpi | default([]) }}'
   become: true
   tasks:
-    - name: Update kernel
+    - name: Fix kernel modules
       ansible.builtin.include_role:
         name: rpi
-        tasks_from: kernel-fix.ansible.yaml 
+        tasks_from: kernel-modules-fix.ansible.yaml
