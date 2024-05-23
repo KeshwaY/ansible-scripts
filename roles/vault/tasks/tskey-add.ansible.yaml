@@ -4,6 +4,6 @@
   delegate_to: localhost
   register: tskey
   changed_when: tskey.rc != 0
-- name: Add tskey to host_vars
+- name: Add tskey to hostvars
   ansible.builtin.set_fact:
     tskey: '{{ tskey.stdout }}'

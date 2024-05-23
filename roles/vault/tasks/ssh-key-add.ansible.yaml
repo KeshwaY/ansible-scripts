@@ -4,6 +4,6 @@
   delegate_to: localhost
   register: ssh_key
   changed_when: ssh_key.rc != 0
-- name: Add password to host_vars
+- name: Add password to hostvars
   ansible.builtin.set_fact:
     ssh_key: '{{ ssh_key.stdout }}'
