@@ -1,7 +1,7 @@
 ---
 - name: Fetch ssh key
   delegate_to: localhost
-  ansible.builtin.command: "op read 'op://Development/{{ inventory_hostname }}/public key'"
+  ansible.builtin.command: "op read 'op://{{ vault_id }}/{{ vault_node_hostname }}/public key'"
   register: ssh_key
   changed_when: ssh_key.rc != 0
 - name: Add password to hostvars
@@ -11,7 +11,7 @@
   delegate_to: localhost
   ansible.builtin.tempfile:
     state: file
-    suffix: 'temp_key_{{ inventory_hostname }}'
+    suffix: 'temp_key_{{ vault_node_hostname }}'
   register: temp_key_file
 - name: Save key to temporary file
   delegate_to: localhost

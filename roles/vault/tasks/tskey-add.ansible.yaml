@@ -1,6 +1,6 @@
 ---
 - name: Get tskey
-  ansible.builtin.command: 'op read op://Development/tokens/tailscale'
+  ansible.builtin.command: 'op read op://{{ vault_id }}/tokens/tailscale'
   delegate_to: localhost
   register: tskey
   changed_when: tskey.rc != 0
