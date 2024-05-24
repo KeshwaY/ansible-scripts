@@ -6,7 +6,13 @@
   hosts: '{{ groups.rpi | default([]) }}'
   gather_facts: false
   tasks:
+    - name: Fetch ssh key
+      when: 'not skip_hostvars_fix_ssh_key | default(false)'
+      ansible.builtin.include_role:
+        name: vault
+        tasks_from: ssh-key-fetch.ansible.yaml
     - name: Add sudo to hostvars
+      when: not skip_hostvars_fix
       ansible.builtin.include_role:
         name: vault
         tasks_from: sudo-password-add.ansible.yaml
