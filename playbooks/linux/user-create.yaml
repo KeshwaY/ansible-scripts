@@ -16,11 +16,6 @@
       ansible.builtin.include_role:
         name: vault
         tasks_from: users-passwords-add.ansible.yaml
-    - name: Add ssh_pass to hostvars
-      when: 'not skip_hostvars_fix_ssh_pass | default(false)'
-      ansible.builtin.include_role:
-        name: vault
-        tasks_from: ssh-password-add.ansible.yaml
     - name: Add sudo to hostvars
       when: 'not skip_hostvars_fix_sudo | default(false)'
       ansible.builtin.include_role:
