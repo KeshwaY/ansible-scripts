@@ -12,7 +12,6 @@
         name: vault
         tasks_from: ssh-key-fetch.ansible.yaml
     - name: Add passwords to hostvars
-      when: 'not skip_hostvars_fix_user_pass | default(false)'
       ansible.builtin.include_role:
         name: vault
         tasks_from: users-passwords-add.ansible.yaml

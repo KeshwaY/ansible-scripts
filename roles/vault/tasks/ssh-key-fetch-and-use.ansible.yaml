@@ -1,0 +1,25 @@
+---
+- name: Fetch ssh key
+  delegate_to: localhost
+  ansible.builtin.command: "op read 'op://{{ vault_id }}/{{ vault_node_hostname }}/public key'"
+  register: ssh_key
+  changed_when: ssh_key.rc != 0
+- name: Add password to hostvars
+  ansible.builtin.set_fact:
+    ssh_key: '{{ ssh_key.stdout }}'
+- name: Create ssh key temporary file # noqa: args[module]
+  delegate_to: localhost
+  ansible.builtin.tempfile:
+    state: file
+    suffix: 'temp_key_{{ vault_node_hostname }}'
+  register: temp_key_file
+- name: Save key to temporary file
+  delegate_to: localhost
+  ansible.builtin.copy:
+    content: '{{ ssh_key }}'
+    dest: '{{ temp_key_file.path }}'
+    mode: u=rw,g=,o=
+- name: Use temporary key
+  delegate_to: localhost
+  ansible.builtin.set_fact:
+    ansible_ssh_private_key_file: '{{ temp_key_file.path }}'
