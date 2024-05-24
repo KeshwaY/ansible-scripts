@@ -1,7 +1,7 @@
 ---
 - name: Fetch ssh key
   delegate_to: localhost
-  ansible.builtin.command: "op read 'op://{{ vault_id }}/{{ vault_node_hostname }}/public key'"
+  ansible.builtin.command: "op read 'op://{{ vault_id }}/{{ node_hostname }}/public key'"
   register: ssh_key
   changed_when: ssh_key.rc != 0
 - name: Add password to hostvars

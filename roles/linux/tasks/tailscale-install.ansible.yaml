@@ -4,6 +4,6 @@
   register: ts_install_output
   changed_when: ts_install_output.rc != 0
 - name: Login with auth key
-  ansible.builtin.command: 'tailscale up --hostname {{ vault_node_hostname }} --authkey {{ ts_key }} --accept-routes'
+  ansible.builtin.command: 'tailscale up --hostname {{ node_hostname }} --authkey {{ ts_key }} --accept-routes'
   register: ts_login_output
   changed_when: ts_login_output.rc != 0

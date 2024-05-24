@@ -12,7 +12,6 @@
         name: vault
         tasks_from: sudo-password-add.ansible.yaml
     - name: Add ts_key to hostvars
-      when: 'not skip_hostvars_fix_ts_key | default(false)'
       ansible.builtin.include_role:
         name: vault
         tasks_from: ts_key-add.ansible.yaml
