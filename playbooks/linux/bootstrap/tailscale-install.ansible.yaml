@@ -14,7 +14,7 @@
     - name: Add ts_key to hostvars
       ansible.builtin.include_role:
         name: vault
-        tasks_from: ts_key-add.ansible.yaml
+        tasks_from: ts-key-add.ansible.yaml
 # ================
 # --- PLAYBOOK ---
 # ================
