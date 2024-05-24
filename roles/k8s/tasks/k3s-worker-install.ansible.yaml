@@ -17,7 +17,7 @@
       --node-ip={{ node_ip_v4.stdout + ',' + node_ip_v6.stdout }} 
       --server=https://{{ hostvars[groups.masters[0]].node_ip }}:6443 
       --token={{ hostvars[groups.masters[0]].cluster_token | b64decode }} 
-      --vpn-auth="name=tailscale,joinKey={{ tskey }},extraArgs="--accept-routes",extraArgs="--hostname {{ inventory_hostname }}"" 
+      --vpn-auth="name=tailscale,joinKey={{ ts_key }},extraArgs="--accept-routes",extraArgs="--hostname {{ inventory_hostname }}"" 
       {{ '--kubelet-arg="feature-gates=KubeletInUserNamespace=true" ' if inventory_hostname == 'melchior-03' else '' }}
       {{ '--kubelet-arg="feature-gates=CloudDualStackNodeIPs=true" ' if inventory_hostname == 'melchior-03' else '' }}
     " sh -s -

@@ -18,7 +18,7 @@
       --advertise-address={{ node_ip_v4.stdout }} 
       --server=https://{{ hostvars[groups.masters[0]].node_ip }}:6443 
       --token={{ hostvars[groups.masters[0]].cluster_token | b64decode }} 
-      --vpn-auth="name=tailscale,joinKey={{ tskey }}" 
+      --vpn-auth="name=tailscale,joinKey={{ ts_key }}" 
       --disable=traefik 
       --disable=servicelb 
       --cluster-cidr=10.42.0.0/16,2001:cafe:42:0::/56 

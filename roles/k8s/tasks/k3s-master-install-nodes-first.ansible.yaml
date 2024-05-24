@@ -16,7 +16,7 @@
       server 
       --node-ip={{ node_ip_v4.stdout + ',' + node_ip_v6.stdout }} 
       --advertise-address={{ node_ip_v4.stdout }} 
-      --vpn-auth="name=tailscale,joinKey={{ tskey }}" 
+      --vpn-auth="name=tailscale,joinKey={{ ts_key }}" 
       --disable=traefik 
       --disable=servicelb 
       --secrets-encryption 

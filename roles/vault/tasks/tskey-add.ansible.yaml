@@ -1,9 +1,9 @@
 ---
-- name: Get tskey
+- name: Get ts_key
   ansible.builtin.command: 'op read op://{{ vault_id }}/tokens/tailscale'
   delegate_to: localhost
-  register: tskey
-  changed_when: tskey.rc != 0
-- name: Add tskey to hostvars
+  register: ts_key
+  changed_when: ts_key.rc != 0
+- name: Add ts_key to hostvars
   ansible.builtin.set_fact:
-    tskey: '{{ tskey.stdout }}'
+    ts_key: '{{ ts_key.stdout }}'

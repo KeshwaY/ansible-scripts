@@ -30,11 +30,11 @@
       ansible.builtin.include_role:
         name: vault
         tasks_from: sudo-password-add.ansible.yaml
-    - name: Add tskey to hostvars
-      when: 'not skip_hostvars_fix_tskey | default(false)'
+    - name: Add ts_key to hostvars
+      when: 'not skip_hostvars_fix_ts_key | default(false)'
       ansible.builtin.include_role:
         name: vault
-        tasks_from: tskey-add.ansible.yaml
+        tasks_from: ts_key-add.ansible.yaml
 # ================
 # --- PLAYBOOK ---
 # ================
