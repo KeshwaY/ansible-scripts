@@ -4,3 +4,10 @@
     src: /etc/rancher/k3s/k3s.yaml
     flat: true
     dest: ~/.kube/config.yaml
+- name: Fix master IP address
+  delegate_to: localhost
+  become: false
+  ansible.builtin.replace:
+    path: ~/.kube/config.yaml
+    regexp: '127.0.0.1'
+    replace: '{{ node_hostname }}'

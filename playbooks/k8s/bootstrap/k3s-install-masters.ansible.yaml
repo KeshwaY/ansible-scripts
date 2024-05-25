@@ -36,6 +36,10 @@
       ansible.builtin.include_role:
         name: k8s
         tasks_from: k3s-master-cluster-data-facts-create.ansible.yaml
+    - name: Fetch cluster configuration
+      ansible.builtin.include_role:
+        name: k8s
+        tasks_from: k3s-master-cluster-data-fetch.ansible.yaml
 - name: Install others masters
   hosts: "{{ groups.masters[1:] | default([]) }}"
   become: true
