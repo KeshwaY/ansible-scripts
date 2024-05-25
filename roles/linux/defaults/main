@@ -12,7 +12,7 @@ packages_to_install:
   - zsh
   - git
   - tree
-  - exa
+  - eza
   - neovim
 k3s_packages_to_install:
   - policycoreutils
