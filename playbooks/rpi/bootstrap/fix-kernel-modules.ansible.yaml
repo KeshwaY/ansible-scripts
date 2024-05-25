@@ -7,7 +7,7 @@
   gather_facts: false
   tasks:
     - name: Add sudo to hostvars
-      when: not skip_hostvars_fix
+      when: 'not skip_hostvars_fix_sudo | default(false)'
       ansible.builtin.include_role:
         name: vault
         tasks_from: sudo-password-add.ansible.yaml
