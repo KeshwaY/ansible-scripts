@@ -34,10 +34,17 @@
       ansible.builtin.include_role:
         name: linux
         tasks_from: passwords-update.ansible.yaml
-- name: Copy ssh key
+- name: Save ssh key as authorized
   hosts: '{{ groups.nodes | default([]) }}'
   tasks:
-    - name: Overwrite ssh key
+    - name: Save ssh key
       ansible.builtin.include_role:
         name: linux
-        tasks_from: ssh-key-overwrite.ansible.yaml
+        tasks_from: ssh-key-save.ansible.yaml
+- name: Save ssh key locally
+  hosts: '{{ groups.nodes | default([]) }}'
+  tasks:
+    - name: Save ssh key
+      ansible.builtin.include_role:
+        name: linux
+        tasks_from: ssh-key-save-locally.ansible.yaml

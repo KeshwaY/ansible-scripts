@@ -1,0 +1,31 @@
+---
+- name: Run whoami
+  delegate_to: localhost
+  ansible.builtin.command: whoami
+  register: whoami_output
+  changed_when: whoami_output.rc != 0
+- name: Run groups
+  delegate_to: localhost
+  ansible.builtin.command: groups
+  register: groups_output
+  changed_when: groups_output.rc != 0
+- name: Get first group
+  delegate_to: localhost
+  ansible.builtin.set_fact:
+    first_group: '{{ groups_output.stdout | split(" ") | first }}'
+- name: Save key locally
+  delegate_to: localhost
+  ansible.builtin.copy:
+    content: '{{ ssh_key }}'
+    dest: '~/.ssh/{{ node_hostname }}.pub'
+    mode: u=rw,g=,o=
+- name: Add host to the ssh configuration
+  delegate_to: localhost
+  community.general.ssh_config:
+    user: '{{ whoami_output.stdout }}'
+    group: '{{ first_group }}'
+    remote_user: '{{ user }}'
+    host: '{{ node_hostname }}'
+    identity_file: '~/.ssh/{{ node_hostname }}.pub'
+    identities_only: true
+    state: present
