@@ -10,4 +10,6 @@
   ansible.builtin.copy:
     content: '{{ ssh_key }}'
     dest: '/home/{{ user }}/.ssh/authorized_keys'
+    owner: '{{ user }}'
+    group: '{{ user }}'
     mode: u=rw,g=,o=
